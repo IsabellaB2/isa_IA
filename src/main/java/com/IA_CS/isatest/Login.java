@@ -12,6 +12,7 @@ import com.IA_CS.manager.FolderManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -103,13 +104,15 @@ public class Login extends javax.swing.JFrame {
         System.out.println ( username + " " + password );// debug output
         try {
             int userId = db.getUserIDByLoginCredentials ( username , password );
-
+            if (userId == -1){
+                JOptionPane.showMessageDialog(this,"this user does not exist");
+            }
             if ( db.isAdmin ( userId ) == 0 ) {
                 Cameras camWin = new Cameras ();
                 camWin.setVisible ( true );
                 this.dispose ();
             }
-            else {
+              if ( db.isAdmin ( userId ) == 1 ) {
                 Administration adminWin = new Administration ();
                 adminWin.setVisible ( true );
                 this.dispose ();
